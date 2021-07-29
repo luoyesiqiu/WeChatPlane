@@ -166,7 +166,7 @@ public class MainSurface extends SurfaceView implements
                                 veZiDan.removeAllElements();
                                 veBaoZha.removeAllElements();
                                 bg.resetBaseLine();
-
+                                Hero.score = 0;
                                 th = new Thread(MainSurface.this);
                                 th.start();
                             }
