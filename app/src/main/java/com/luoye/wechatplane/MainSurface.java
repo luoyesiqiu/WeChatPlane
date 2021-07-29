@@ -292,7 +292,15 @@ public class MainSurface extends SurfaceView implements
                     //如果子弹击中敌机
                     if (veZiDan.get(i).isHit(enemyPlaneList.get(j))) {
                         //在这里千万不要移除子弹元素,不然会出错，设置它的消亡标识就好
-                        veBaoZha.add(new BaoZha(bao1Bmp, enemyPlaneList.get(j)));
+                        if(enemyPlaneList.get(j) instanceof XiaoDiJi) {
+                            veBaoZha.add(new BaoZha(bao1Bmp, enemyPlaneList.get(j)));
+                        }
+                        else if(enemyPlaneList.get(j) instanceof ZhongDiJi) {
+                            veBaoZha.add(new BaoZha(bao2Bmp, enemyPlaneList.get(j)));
+                        }
+                        else if(enemyPlaneList.get(j) instanceof DaDiJi) {
+                            veBaoZha.add(new BaoZha(bao3Bmp, enemyPlaneList.get(j)));
+                        }
                         enemyPlaneList.get(j).hpDown();
                         veZiDan.get(i).isDead = true;
                     }
