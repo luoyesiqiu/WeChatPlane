@@ -17,6 +17,8 @@ import android.view.GestureDetector.*;
 import android.app.*;
 import android.os.*;
 
+import com.luoye.wechatplane.res.AssetUtils;
+
 public class MainSurface extends SurfaceView implements
         SurfaceHolder.Callback, Runnable, OnGestureListener, OnTouchListener {
 
@@ -87,10 +89,10 @@ public class MainSurface extends SurfaceView implements
         heroBmp = new Bitmap[2];
 
         //从资源中获得位图对象
-        backBmp1 = getImageFromAssetsFile("image/bg_01.png");
-        backBmp2 = getImageFromAssetsFile("image/bg_02.png");
+        backBmp1 = AssetUtils.getImageFromAssetsFile(context,"image/bg_01.png");
+        backBmp2 = AssetUtils.getImageFromAssetsFile(context,"image/bg_02.png");
         //重要！从Assets文件夹中获取文件不会被拉伸。从而保证飞机，敌机的正常显示
-        planeBmp = getImageFromAssetsFile("image/plane.png");
+        planeBmp = AssetUtils.getImageFromAssetsFile(context,"image/plane.png");
 
         //从plane.png这张图片的一部分获得英雄的位图对象
         heroBmp[0] = planeBmp.createBitmap(planeBmp, 66, 168, 62, 68);
@@ -391,17 +393,4 @@ public class MainSurface extends SurfaceView implements
         return gd.onTouchEvent(p2);
     }
 
-    //读取文件流，并把它转换成位图对象
-    public Bitmap getImageFromAssetsFile(String fileName) {
-        Bitmap image = null;
-        AssetManager am = getResources().getAssets();
-        try {
-            InputStream is = am.open(fileName);
-            image = BitmapFactory.decodeStream(is);
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return image;
-    }
 }
