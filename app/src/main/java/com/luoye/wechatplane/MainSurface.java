@@ -6,7 +6,9 @@ import android.content.*;
 import android.content.res.*;
 
 import java.io.*;
+
 import android.graphics.*;
+
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -136,7 +138,7 @@ public class MainSurface extends SurfaceView implements
         soundPool = new SoundPool.Builder().build();
         try {
             exlosionId = soundPool.load(context.getAssets().openFd("sound/explosion.mp3"), 0);
-            shootId = soundPool.load(context.getAssets().openFd("sound/shoot.mp3"),0);
+            shootId = soundPool.load(context.getAssets().openFd("sound/shoot.mp3"), 0);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -153,9 +155,9 @@ public class MainSurface extends SurfaceView implements
         soundHandler = new Handler(soundHandlerThread.getLooper());
     }
 
-    private void playSound(final int id){
+    private void playSound(final int id) {
         soundHandler.post(() -> {
-            soundPool.play(id,0.5f,1,0,0,2f);
+            soundPool.play(id, 0.5f, 1, 0, 0, 2f);
         });
     }
 
@@ -251,15 +253,12 @@ public class MainSurface extends SurfaceView implements
 
                 if (enemyPlane.isDead) {
                     enemyPlaneList.remove(i);
-                }
-                else if (enemyPlane.getHp() <= 0) {
-                    if(enemyPlane instanceof XiaoDiJi) {
+                } else if (enemyPlane.getHp() <= 0) {
+                    if (enemyPlane instanceof XiaoDiJi) {
                         Hero.score += 1;
-                    }
-                    else if(enemyPlane instanceof ZhongDiJi) {
+                    } else if (enemyPlane instanceof ZhongDiJi) {
                         Hero.score += 10;
-                    }
-                    else if(enemyPlane instanceof DaDiJi) {
+                    } else if (enemyPlane instanceof DaDiJi) {
                         Hero.score += 20;
                     }
                     enemyPlaneList.remove(i);
@@ -299,13 +298,11 @@ public class MainSurface extends SurfaceView implements
                     //如果子弹击中敌机
                     if (veZiDan.get(i).isHit(enemyPlaneList.get(j))) {
                         //在这里千万不要移除子弹元素,不然会出错，设置它的消亡标识就好
-                        if(enemyPlaneList.get(j) instanceof XiaoDiJi) {
+                        if (enemyPlaneList.get(j) instanceof XiaoDiJi) {
                             veBaoZha.add(new BaoZha(bao1Bmp, enemyPlaneList.get(j)));
-                        }
-                        else if(enemyPlaneList.get(j) instanceof ZhongDiJi) {
+                        } else if (enemyPlaneList.get(j) instanceof ZhongDiJi) {
                             veBaoZha.add(new BaoZha(bao2Bmp, enemyPlaneList.get(j)));
-                        }
-                        else if(enemyPlaneList.get(j) instanceof DaDiJi) {
+                        } else if (enemyPlaneList.get(j) instanceof DaDiJi) {
                             veBaoZha.add(new BaoZha(bao3Bmp, enemyPlaneList.get(j)));
                         }
                         playSound(exlosionId);
@@ -329,14 +326,14 @@ public class MainSurface extends SurfaceView implements
     @Override
     public void run() {
         while (flag) {
+            canvas = sfh.lockCanvas();
+            //如果画布不为空时绘图
+            if (canvas != null) {
+                this.draw();
+                this.logic();
+            }
             try {
-                canvas = sfh.lockCanvas();
-                //如果画布不为空时绘图
-                if (canvas != null) {
-                    this.draw();
-                    this.logic();
-                }
-                Thread.sleep(50);
+                Thread.sleep(30);
             } catch (InterruptedException e) {
             } finally {
                 //如果画布不为空时提交画布
