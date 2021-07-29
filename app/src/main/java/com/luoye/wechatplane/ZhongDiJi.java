@@ -12,7 +12,7 @@ public class ZhongDiJi extends Plane {
     public ZhongDiJi(Bitmap back) {
         this.back = back;
         speed = 10;
-        hp = 10;
+        setHp(10);
         isDead = false;
         backWidth = this.back.getWidth();
         backHeight = this.back.getHeight();

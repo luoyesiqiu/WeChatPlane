@@ -42,12 +42,12 @@ public class MainSurface extends SurfaceView implements
     //英雄类
     Hero hero;
 
-    //子弹，敌机的动态数组
+    //子弹
     List<ZiDan> veZiDan;
-    List<XiaoDiJi> veXiaoDiJi;
-    List<ZhongDiJi> veZhongDiJi;
-    List<DaDiJi> veDaDiJi;
+    //爆炸
     List<BaoZha> veBaoZha;
+    //敌机
+    List<Plane> enemyPlaneList;
     //画布类
     Canvas canvas;
     //游戏状态
@@ -106,7 +106,6 @@ public class MainSurface extends SurfaceView implements
     }
 
     public void surfaceCreated(SurfaceHolder p1) {
-        // TODO: Implement this method
         //获取屏幕大小
         this.sw = getWidth();
         this.sh = getHeight();
@@ -115,10 +114,9 @@ public class MainSurface extends SurfaceView implements
         loadRes();
 
         veZiDan = new CopyOnWriteArrayList<>();
-        veXiaoDiJi = new CopyOnWriteArrayList<>();
-        veZhongDiJi = new CopyOnWriteArrayList<>();
-        veDaDiJi = new CopyOnWriteArrayList<>();
         veBaoZha = new CopyOnWriteArrayList<>();
+
+        enemyPlaneList = new CopyOnWriteArrayList<>();
 
         bg = new BackGround(backBmp1, backBmp2);
         paint = new Paint();
@@ -162,9 +160,7 @@ public class MainSurface extends SurfaceView implements
                                 hero.y = sh - heroBmp[0].getHeight() * 3;
                                 flag = true;
                                 countTime = 0;
-                                veXiaoDiJi.clear();
-                                veZhongDiJi.clear();
-                                veDaDiJi.clear();
+                                enemyPlaneList.clear();
                                 veZiDan.clear();
                                 veBaoZha.clear();
                                 bg.resetBaseLine();
@@ -200,18 +196,12 @@ public class MainSurface extends SurfaceView implements
 
         }
 
-        //画小敌机
-        for (int i = 0; i < veXiaoDiJi.size(); i++)
-            veXiaoDiJi.get(i).draw(canvas);
+        //绘制敌机
+        for (Plane plane : enemyPlaneList) {
+            plane.draw(canvas);
+        }
 
-        //画中敌机
-        for (int i = 0; i < veZhongDiJi.size(); i++)
-            veZhongDiJi.get(i).draw(canvas);
-
-        //画大敌机
-        for (int i = 0; i < veDaDiJi.size(); i++)
-            veDaDiJi.get(i).draw(canvas);
-        //画爆炸
+        //绘制爆炸
         for (int i = 0; i < veBaoZha.size(); i++)
             veBaoZha.get(i).draw(canvas);
     }
@@ -219,7 +209,7 @@ public class MainSurface extends SurfaceView implements
     /*逻辑方法*/
     public void logic() {
 
-        if (hero.isDead != true) {
+        if (!hero.isDead) {
             bg.logic();
             hero.logic();
             //子弹逻辑
@@ -231,40 +221,26 @@ public class MainSurface extends SurfaceView implements
                     zd.logic();
             }
 
-            //小敌机逻辑
-            for (int i = 0; i < veXiaoDiJi.size(); i++) {
-                XiaoDiJi xdj = veXiaoDiJi.get(i);
-                if (xdj.isDead)
-                    veXiaoDiJi.remove(i);
-                else if (xdj.hp == 0) {
-                    Hero.score += 1;
-                    veXiaoDiJi.remove(i);
-                } else
-                    xdj.logic();
-
-            }
-            //中敌机
-            for (int i = 0; i < veZhongDiJi.size(); i++) {
-                ZhongDiJi zdj = veZhongDiJi.get(i);
-                if (zdj.isDead)
-                    veZhongDiJi.remove(i);
-                else if (zdj.hp == 0) {
-                    Hero.score += 10;
-                    veZhongDiJi.remove(i);
-                } else
-                    zdj.logic();
-
-            }
-            //大敌机
-            for (int i = 0; i < veDaDiJi.size(); i++) {
-                DaDiJi ddj = veDaDiJi.get(i);
-                if (ddj.isDead)
-                    veDaDiJi.remove(i);
-                else if (ddj.hp == 0) {
-                    Hero.score += 20;
-                    veDaDiJi.remove(i);
-                } else
-                    ddj.logic();
+            //敌机逻辑敌机
+            for (int i = 0; i < enemyPlaneList.size(); i++) {
+                Plane enemyPlane = enemyPlaneList.get(i);
+                if (enemyPlane.isDead) {
+                    enemyPlaneList.remove(i);
+                }
+                else if (enemyPlane.getHp() <= 0) {
+                    if(enemyPlane instanceof XiaoDiJi) {
+                        Hero.score += 1;
+                    }
+                    else if(enemyPlane instanceof ZhongDiJi) {
+                        Hero.score += 10;
+                    }
+                    else if(enemyPlane instanceof DaDiJi) {
+                        Hero.score += 20;
+                    }
+                    enemyPlaneList.remove(i);
+                } else {
+                    enemyPlane.logic();
+                }
 
             }
 
@@ -282,49 +258,27 @@ public class MainSurface extends SurfaceView implements
             if (countTime % zdTime == 0)
                 veZiDan.add(new ZiDan(zidanBmp, hero));
             if (countTime % xdjTime == 0)
-                veXiaoDiJi.add(new XiaoDiJi(xiaodijiBmp));
+                enemyPlaneList.add(new XiaoDiJi(xiaodijiBmp));
             if (countTime % zdjTime == 0)
-                veZhongDiJi.add(new ZhongDiJi(zhongdijiBmp));
+                enemyPlaneList.add(new ZhongDiJi(zhongdijiBmp));
             if (countTime % ddjTime == 0)
-                veDaDiJi.add(new DaDiJi(dadijiBmp));
+                enemyPlaneList.add(new DaDiJi(dadijiBmp));
 
             /*这里判断子弹是否击中敌机*/
             for (int i = 0; i < veZiDan.size(); i++) {
-                for (int j = 0; j < veXiaoDiJi.size(); j++) {
+                for (int j = 0; j < enemyPlaneList.size(); j++) {
                     //如果子弹击中敌机
-                    if (veZiDan.get(i).isHit(veXiaoDiJi.get(j))) {
+                    if (veZiDan.get(i).isHit(enemyPlaneList.get(j))) {
                         //在这里千万不要移除子弹元素,不然会出错，设置它的消亡标识就好
-                        veBaoZha.add(new BaoZha(bao1Bmp, veXiaoDiJi.get(j)));
-                        veZiDan.get(i).isDead = true;
+                        veBaoZha.add(new BaoZha(bao1Bmp, enemyPlaneList.get(j)));
+                        enemyPlaneList.get(j).hpDown();
                     }
-                }
-                for (int j = 0; j < veZhongDiJi.size(); j++) {
-                    if (veZiDan.get(i).isHit(veZhongDiJi.get(j))) {
-                        veBaoZha.add(new BaoZha(bao2Bmp, veZhongDiJi.get(j)));
-                        veZiDan.get(i).isDead = true;
-                    }
-                }
-                for (int j = 0; j < veDaDiJi.size(); j++) {
-                    if (veZiDan.get(i).isHit(veDaDiJi.get(j))) {
-                        veBaoZha.add(new BaoZha(bao3Bmp, veDaDiJi.get(j)));
-                        veZiDan.get(i).isDead = true;
-                    }
+
                 }
             }
             /*以下判断敌机是否碰到英雄*/
-            for (int i = 0; i < veXiaoDiJi.size(); i++) {
-                if (veXiaoDiJi.get(i).isHit(hero)) {
-                    hero.isDead = true;
-                }
-            }
-
-            for (int i = 0; i < veZhongDiJi.size(); i++) {
-                if (veZhongDiJi.get(i).isHit(hero)) {
-                    hero.isDead = true;
-                }
-            }
-            for (int i = 0; i < veDaDiJi.size(); i++) {
-                if (veDaDiJi.get(i).isHit(hero)) {
+            for (int i = 0; i < enemyPlaneList.size(); i++) {
+                if (enemyPlaneList.get(i).isHit(hero)) {
                     hero.isDead = true;
                 }
             }

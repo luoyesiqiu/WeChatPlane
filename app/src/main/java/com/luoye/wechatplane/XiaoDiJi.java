@@ -12,7 +12,7 @@ import android.util.*;
 public class XiaoDiJi extends Plane {
     public XiaoDiJi(Bitmap back) {
         this.back = back;
-        this.hp = 1;
+        setHp(1);
         speed = 10;
         isDead = false;
         backWidth = this.back.getWidth();

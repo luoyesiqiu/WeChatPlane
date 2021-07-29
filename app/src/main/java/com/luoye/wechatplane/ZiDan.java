@@ -34,29 +34,14 @@ public class ZiDan {
         canvas.drawBitmap(back, x, y, paint);
     }
 
-    //判断子弹是否击中敌机，下同
-    public boolean isHit(XiaoDiJi xdj) {
-        if (((xdj.y >= this.y) && (this.x >= xdj.x) && (this.x <= xdj.x + xdj.backWidth))) {
+    //判断子弹是否击中敌机
+    public boolean isHit(Plane plane) {
+        if (((plane.y >= this.y) && (this.x >= plane.x) && (this.x <= plane.x + plane.backWidth))) {
             //击中,敌机血-1，下同
-            xdj.hp -= 1;
+            plane.hp -= 1;
             return true;
         } else
             return false;
     }
 
-    public boolean isHit(ZhongDiJi zdj) {
-        if (((zdj.y >= this.y) && (this.x >= zdj.x) && (this.x <= zdj.x + zdj.backWidth))) {
-            zdj.hp -= 1;
-            return true;
-        } else
-            return false;
-    }
-
-    public boolean isHit(DaDiJi ddj) {
-        if (((ddj.y >= this.y) && (this.x >= ddj.x) && (this.x <= ddj.x + ddj.backWidth))) {
-            ddj.hp -= 1;
-            return true;
-        } else
-            return false;
-    }
 }

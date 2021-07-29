@@ -47,4 +47,17 @@ public abstract class Plane {
         else
             return false;
     }
+
+    public void hpDown(){
+        hp -= 1;
+    }
+
+    public  void setHp(int hp){
+        this.hp = hp;
+    }
+
+
+    public int getHp(){
+        return hp;
+    }
 }
