@@ -1,5 +1,6 @@
 package com.luoye.wechatplane;
 
+import android.util.Log;
 import android.view.*;
 import android.content.*;
 import android.content.res.*;
@@ -182,7 +183,7 @@ public class MainSurface extends SurfaceView implements
         bg.draw(canvas);
         bg.drawScore(canvas);
         //英雄没死的时候绘图
-        if (hero.isDead != true) {
+        if (hero.isDead) {
             hero.draw(canvas);
             //画子弹
             for (int i = 0; i < veZiDan.size(); i++)
@@ -272,6 +273,7 @@ public class MainSurface extends SurfaceView implements
                         //在这里千万不要移除子弹元素,不然会出错，设置它的消亡标识就好
                         veBaoZha.add(new BaoZha(bao1Bmp, enemyPlaneList.get(j)));
                         enemyPlaneList.get(j).hpDown();
+                        Log.d(Const.LOG_TAG,enemyPlaneList.get(j).getClass().getSimpleName() +  " hp = " + enemyPlaneList.get(j).getHp());
                     }
 
                 }
