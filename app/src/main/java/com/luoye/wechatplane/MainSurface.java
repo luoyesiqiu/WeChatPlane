@@ -1,5 +1,6 @@
 package com.luoye.wechatplane;
 
+import android.media.SoundPool;
 import android.util.Log;
 import android.view.*;
 import android.content.*;
@@ -17,55 +18,59 @@ import android.os.*;
 
 public class MainSurface extends SurfaceView implements
         SurfaceHolder.Callback, Runnable, OnGestureListener, OnTouchListener {
+
+    //游戏状态:0没开始，1游戏中，2游戏结束
+    private final byte G_UNSTART = 0, G_ING = 1, G_OVER = 2;
+    private SoundPool soundPool = null;
+    private int shootId;
+    private int exlosionId;
     GestureDetector gd;
-    Context context;
-    SurfaceHolder sfh;
-    Paint paint;
+    private Context context;
+    private SurfaceHolder sfh;
+    private Paint paint;
     //两张背景图
-    Bitmap backBmp1, backBmp2;
+    private Bitmap backBmp1, backBmp2;
     //全部的飞机背景图
-    Bitmap planeBmp;
+    private Bitmap planeBmp;
     //英雄背景图
-    Bitmap[] heroBmp;
+    private Bitmap[] heroBmp;
     //子弹的背景图
-    Bitmap zidanBmp;
+    private Bitmap zidanBmp;
     //敌机的背景图
-    Bitmap xiaodijiBmp, zhongdijiBmp, dadijiBmp;
+    private Bitmap xiaodijiBmp, zhongdijiBmp, dadijiBmp;
     //爆炸背景图
-    Bitmap bao1Bmp, bao2Bmp, bao3Bmp;
+    private Bitmap bao1Bmp, bao2Bmp, bao3Bmp;
 
     //烟雾的背景图……算了不写了
     //Bitmap yan1Bmp,yan2Bmp;
     //屏幕高和宽
-    static int sw, sh;
+    public static int sw, sh;
     //背景图类
-    BackGround bg;
+    private BackGround bg;
     //英雄类
-    Hero hero;
+    private Hero hero;
 
     //子弹
-    List<ZiDan> veZiDan;
+    private List<ZiDan> veZiDan;
     //爆炸
-    List<BaoZha> veBaoZha;
+    private List<BaoZha> veBaoZha;
     //敌机
-    List<Plane> enemyPlaneList;
+    private List<Plane> enemyPlaneList;
     //画布类
-    Canvas canvas;
+    private Canvas canvas;
     //游戏状态
-    byte g_state;
-    //游戏状态:0没开始，1游戏中，2游戏结束
-    final byte G_UNSTART = 0, G_ING = 1, G_OVER = 2;
+    private byte g_state;
     //设置创建子弹和各种敌机的时间
-    int zdTime = 3;
-    int xdjTime = 6;
-    int zdjTime = 80;
-    int ddjTime = 300;
+    private int zdTime = 3;
+    private int xdjTime = 6;
+    private int zdjTime = 80;
+    private int ddjTime = 300;
     //用来计数
-    long countTime = 0;
+    private long countTime = 0;
     //控制刷新屏幕的循环是否继续
-    boolean flag = true;
+    private boolean flag = true;
 
-    Thread th;
+    private Thread th;
 
     public MainSurface(Context context) {
         super(context);
@@ -108,8 +113,8 @@ public class MainSurface extends SurfaceView implements
 
     public void surfaceCreated(SurfaceHolder p1) {
         //获取屏幕大小
-        this.sw = getWidth();
-        this.sh = getHeight();
+        sw = getWidth();
+        sh = getHeight();
 
         //加载资源
         loadRes();
@@ -127,6 +132,14 @@ public class MainSurface extends SurfaceView implements
 
         //保持开启屏幕
         this.setKeepScreenOn(true);
+
+        soundPool = new SoundPool.Builder().build();
+        try {
+            exlosionId = soundPool.load(context.getAssets().openFd("sound/explosion.mp3"), 0);
+            shootId = soundPool.load(context.getAssets().openFd("sound/shoot.mp3"),0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         gd = new GestureDetector(this);
         this.setLongClickable(true);//重要
@@ -193,6 +206,8 @@ public class MainSurface extends SurfaceView implements
         else {
             //等于false，停止run方法下的循环。
             flag = false;
+            soundPool.pause(shootId);
+            soundPool.pause(exlosionId);
             handler.sendEmptyMessage(0);
 
         }
@@ -228,6 +243,7 @@ public class MainSurface extends SurfaceView implements
 
                 if (enemyPlane.isDead) {
                     enemyPlaneList.remove(i);
+                    soundPool.play(exlosionId,0.5f,1,0,0,2f);
                 }
                 else if (enemyPlane.getHp() <= 0) {
                     if(enemyPlane instanceof XiaoDiJi) {
@@ -240,6 +256,8 @@ public class MainSurface extends SurfaceView implements
                         Hero.score += 20;
                     }
                     enemyPlaneList.remove(i);
+                    soundPool.play(exlosionId,0.5f,1,0,0,2f);
+
                 } else {
                     enemyPlane.logic();
                 }
@@ -257,8 +275,10 @@ public class MainSurface extends SurfaceView implements
             }
             countTime++;
             //到时间就创建子弹、敌机
-            if (countTime % zdTime == 0)
+            if (countTime % zdTime == 0) {
+                soundPool.play(shootId,0.5f,1,0,1,1f);
                 veZiDan.add(new ZiDan(zidanBmp, hero));
+            }
             if (countTime % xdjTime == 0)
                 enemyPlaneList.add(new XiaoDiJi(xiaodijiBmp));
             if (countTime % zdjTime == 0)
@@ -275,7 +295,6 @@ public class MainSurface extends SurfaceView implements
                         veBaoZha.add(new BaoZha(bao1Bmp, enemyPlaneList.get(j)));
                         enemyPlaneList.get(j).hpDown();
                         veZiDan.get(i).isDead = true;
-                        //Log.d(Const.LOG_TAG,enemyPlaneList.get(j).getClass().getSimpleName() +  " hp = " + enemyPlaneList.get(j).getHp());
                     }
 
                 }
