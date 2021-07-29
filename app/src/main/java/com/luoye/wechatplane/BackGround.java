@@ -21,7 +21,7 @@ public class BackGround {
         this.back2 = back2;
         paint = new Paint();
         paint.setColor(Color.BLACK);
-        paint.setTextSize(50.0f);
+        paint.setTextSize(MainSurface.sw/20);
         paint.setAntiAlias(true);
         resetBaseLine();
     }
@@ -49,7 +49,7 @@ public class BackGround {
 
     //画分数
     public void drawScore(Canvas canvas) {
-        canvas.drawText("Score:" + Hero.score, 40 * 2, 20 * 2, paint);
+        canvas.drawText("Score:" + Hero.score, MainSurface.sw/20, MainSurface.sw/20, paint);
     }
 
     //背景逻辑
