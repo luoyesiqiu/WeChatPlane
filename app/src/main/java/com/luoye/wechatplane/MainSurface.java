@@ -251,7 +251,6 @@ public class MainSurface extends SurfaceView implements
 
                 if (enemyPlane.isDead) {
                     enemyPlaneList.remove(i);
-                    playSound(exlosionId);
                 }
                 else if (enemyPlane.getHp() <= 0) {
                     if(enemyPlane instanceof XiaoDiJi) {
@@ -264,7 +263,7 @@ public class MainSurface extends SurfaceView implements
                         Hero.score += 20;
                     }
                     enemyPlaneList.remove(i);
-                    playSound(exlosionId);
+
 
                 } else {
                     enemyPlane.logic();
@@ -309,6 +308,7 @@ public class MainSurface extends SurfaceView implements
                         else if(enemyPlaneList.get(j) instanceof DaDiJi) {
                             veBaoZha.add(new BaoZha(bao3Bmp, enemyPlaneList.get(j)));
                         }
+                        playSound(exlosionId);
                         enemyPlaneList.get(j).hpDown();
                         veZiDan.get(i).isDead = true;
                     }
