@@ -21,7 +21,7 @@ public abstract class Plane {
     //敌机的速度
     public float speed;
     //敌机的血
-    public int hp;
+    private int hp;
     //画笔
     public Paint paint;
     //随机数
@@ -49,7 +49,7 @@ public abstract class Plane {
     }
 
     public void hpDown(){
-        hp -= 1;
+        this.hp -= 1;
     }
 
     public  void setHp(int hp){
@@ -58,6 +58,6 @@ public abstract class Plane {
 
 
     public int getHp(){
-        return hp;
+        return this.hp;
     }
 }

@@ -38,7 +38,7 @@ public class ZiDan {
     public boolean isHit(Plane plane) {
         if (((plane.y >= this.y) && (this.x >= plane.x) && (this.x <= plane.x + plane.backWidth))) {
             //击中,敌机血-1，下同
-            plane.hp -= 1;
+            plane.hpDown();
             return true;
         } else
             return false;

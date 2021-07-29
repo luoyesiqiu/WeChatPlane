@@ -14,7 +14,7 @@ public class DaDiJi extends Plane {
         backWidth = this.back.getWidth();
         backHeight = this.back.getHeight();
         speed = 10;
-        setHp(10);
+        setHp(20);
         isDead = false;
         rd = new Random();
         this.x = rd.nextInt(MainSurface.sw - backWidth);

@@ -183,7 +183,7 @@ public class MainSurface extends SurfaceView implements
         bg.draw(canvas);
         bg.drawScore(canvas);
         //英雄没死的时候绘图
-        if (hero.isDead) {
+        if (!hero.isDead) {
             hero.draw(canvas);
             //画子弹
             for (int i = 0; i < veZiDan.size(); i++)
@@ -225,6 +225,7 @@ public class MainSurface extends SurfaceView implements
             //敌机逻辑敌机
             for (int i = 0; i < enemyPlaneList.size(); i++) {
                 Plane enemyPlane = enemyPlaneList.get(i);
+
                 if (enemyPlane.isDead) {
                     enemyPlaneList.remove(i);
                 }
@@ -273,7 +274,8 @@ public class MainSurface extends SurfaceView implements
                         //在这里千万不要移除子弹元素,不然会出错，设置它的消亡标识就好
                         veBaoZha.add(new BaoZha(bao1Bmp, enemyPlaneList.get(j)));
                         enemyPlaneList.get(j).hpDown();
-                        Log.d(Const.LOG_TAG,enemyPlaneList.get(j).getClass().getSimpleName() +  " hp = " + enemyPlaneList.get(j).getHp());
+                        veZiDan.get(i).isDead = true;
+                        //Log.d(Const.LOG_TAG,enemyPlaneList.get(j).getClass().getSimpleName() +  " hp = " + enemyPlaneList.get(j).getHp());
                     }
 
                 }
