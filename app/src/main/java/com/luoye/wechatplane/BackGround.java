@@ -15,7 +15,7 @@ public class BackGround {
     private Paint paint;
     private Canvas canvas;
     private List<Integer> backBaseLine = new ArrayList<>();
-    private final int lineCount = 4;
+    private final int lineCount = 6;
     public BackGround(Bitmap back1, Bitmap back2) {
         this.back1 = back1;
         this.back2 = back2;
