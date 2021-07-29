@@ -1,7 +1,6 @@
 package com.luoye.wechatplane;
 
 import android.media.SoundPool;
-import android.util.Log;
 import android.view.*;
 import android.content.*;
 import android.content.res.*;
@@ -70,7 +69,8 @@ public class MainSurface extends SurfaceView implements
     //控制刷新屏幕的循环是否继续
     private boolean flag = true;
 
-    private Thread th;
+    private Thread gameThread;
+    private Handler soundHandler;
 
     public MainSurface(Context context) {
         super(context);
@@ -146,9 +146,17 @@ public class MainSurface extends SurfaceView implements
         this.setOnTouchListener(this);
         g_state = G_ING;
         //线程初始化，放在此处。避免最小化又打开游戏时又开启一个线程
-        th = new Thread(this);
-        th.start();
+        gameThread = new Thread(this);
+        gameThread.start();
+        HandlerThread soundHandlerThread = new HandlerThread("sound");
+        soundHandlerThread.start();
+        soundHandler = new Handler(soundHandlerThread.getLooper());
+    }
 
+    private void playSound(final int id){
+        soundHandler.post(() -> {
+            soundPool.play(id,0.5f,1,0,0,2f);
+        });
     }
 
     Handler handler = new Handler(Looper.myLooper()) {
@@ -179,8 +187,8 @@ public class MainSurface extends SurfaceView implements
                                 veBaoZha.clear();
                                 bg.resetBaseLine();
                                 Hero.score = 0;
-                                th = new Thread(MainSurface.this);
-                                th.start();
+                                gameThread = new Thread(MainSurface.this);
+                                gameThread.start();
                             }
 
                         })
@@ -243,7 +251,7 @@ public class MainSurface extends SurfaceView implements
 
                 if (enemyPlane.isDead) {
                     enemyPlaneList.remove(i);
-                    soundPool.play(exlosionId,0.5f,1,0,0,2f);
+                    playSound(exlosionId);
                 }
                 else if (enemyPlane.getHp() <= 0) {
                     if(enemyPlane instanceof XiaoDiJi) {
@@ -256,7 +264,7 @@ public class MainSurface extends SurfaceView implements
                         Hero.score += 20;
                     }
                     enemyPlaneList.remove(i);
-                    soundPool.play(exlosionId,0.5f,1,0,0,2f);
+                    playSound(exlosionId);
 
                 } else {
                     enemyPlane.logic();
@@ -276,7 +284,7 @@ public class MainSurface extends SurfaceView implements
             countTime++;
             //到时间就创建子弹、敌机
             if (countTime % zdTime == 0) {
-                soundPool.play(shootId,0.5f,1,0,1,1f);
+                playSound(shootId);
                 veZiDan.add(new ZiDan(zidanBmp, hero));
             }
             if (countTime % xdjTime == 0)
