@@ -1,7 +1,8 @@
-package com.luoye.wechatplane;
+package com.luoye.wechatplane.ator;
 
 import android.graphics.*;
-import android.util.*;
+
+import com.luoye.wechatplane.view.MainSurface;
 
 import java.util.*;
 

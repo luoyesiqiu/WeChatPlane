@@ -2,10 +2,9 @@ package com.luoye.wechatplane;
 
 import android.app.*;
 import android.os.*;
-import android.view.*;
 import android.widget.*;
 
-import java.io.*;
+import com.luoye.wechatplane.view.MainSurface;
 
 public class MainActivity extends Activity {
 

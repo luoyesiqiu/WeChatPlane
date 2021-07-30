@@ -1,9 +1,8 @@
-package com.luoye.wechatplane;
+package com.luoye.wechatplane.view;
 
 import android.media.SoundPool;
 import android.view.*;
 import android.content.*;
-import android.content.res.*;
 
 import java.io.*;
 
@@ -17,8 +16,18 @@ import android.view.GestureDetector.*;
 import android.app.*;
 import android.os.*;
 
+import com.luoye.wechatplane.ator.BackGround;
+import com.luoye.wechatplane.ator.BaoZha;
+import com.luoye.wechatplane.ator.Const;
+import com.luoye.wechatplane.ator.DaDiJi;
+import com.luoye.wechatplane.ator.Hero;
+import com.luoye.wechatplane.ator.Plane;
+import com.luoye.wechatplane.ator.XiaoDiJi;
+import com.luoye.wechatplane.ator.ZhongDiJi;
+import com.luoye.wechatplane.ator.ZiDan;
 import com.luoye.wechatplane.res.AssetUtils;
 import com.luoye.wechatplane.util.BitmapUtils;
+import com.luoye.wechatplane.util.Logger;
 
 public class MainSurface extends SurfaceView implements
         SurfaceHolder.Callback, Runnable, OnGestureListener, OnTouchListener {

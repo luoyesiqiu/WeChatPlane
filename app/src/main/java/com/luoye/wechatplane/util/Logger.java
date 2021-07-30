@@ -1,4 +1,4 @@
-package com.luoye.wechatplane;
+package com.luoye.wechatplane.util;
 
 import android.util.Log;
 

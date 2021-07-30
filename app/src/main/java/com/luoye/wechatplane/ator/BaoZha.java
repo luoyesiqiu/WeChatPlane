@@ -1,7 +1,6 @@
-package com.luoye.wechatplane;
+package com.luoye.wechatplane.ator;
 
 import android.graphics.*;
-import android.util.*;
 
 /**
  * 敌机爆炸类
@@ -11,7 +10,7 @@ public class BaoZha {
     private Paint paint;
     private int backWidth, backHeight;
     private Plane dj;
-    boolean isDead = false;
+    public boolean isDead = false;
 
     public BaoZha(Bitmap back, Plane dj) {
         this.back = back;

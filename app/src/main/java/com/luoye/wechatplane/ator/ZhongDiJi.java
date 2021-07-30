@@ -1,19 +1,20 @@
-package com.luoye.wechatplane;
+package com.luoye.wechatplane.ator;
 
 import android.graphics.*;
 
+import com.luoye.wechatplane.view.MainSurface;
+
 import java.util.*;
 
-import android.util.*;
-
 /**
- * 小型敌机类
+ * 中型敌机类
  */
-public class XiaoDiJi extends Plane {
-    public XiaoDiJi(Bitmap back) {
+public class ZhongDiJi extends Plane {
+
+    public ZhongDiJi(Bitmap back) {
         this.back = back;
-        setHp(1);
         speed = 10;
+        setHp(10);
         isDead = false;
         backWidth = this.back.getWidth();
         backHeight = this.back.getHeight();
@@ -22,4 +23,5 @@ public class XiaoDiJi extends Plane {
         paint = new Paint();
         paint.setAntiAlias(true);
     }
+
 }

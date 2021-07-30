@@ -1,23 +1,22 @@
-package com.luoye.wechatplane;
+package com.luoye.wechatplane.ator;
 
 import android.graphics.*;
-import android.view.GestureDetector.*;
 import android.view.*;
-import android.view.View.*;
-import android.util.*;
+
+import com.luoye.wechatplane.view.MainSurface;
 
 //主角类
 public class Hero {
-    float x, y;
+    public float x, y;
     private float tempX, tempY;
     private Paint paint;
     private Bitmap[] back;
     private int backIndex = 0;
-    static int score = 0;
-    boolean isDead = false;
+    public static int score = 0;
+    public boolean isDead = false;
     int backWidth, backHeight;
 
-    Hero(int x, int y, Bitmap[] back) {
+    public Hero(int x, int y, Bitmap[] back) {
         this.x = x;
         this.y = y;
         this.back = back;

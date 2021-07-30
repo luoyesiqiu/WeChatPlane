@@ -1,18 +1,17 @@
-package com.luoye.wechatplane;
+package com.luoye.wechatplane.ator;
 
 import android.graphics.*;
-import android.util.*;
 
 /**
  * 子弹类
  */
 public class ZiDan {
-    float x, y;
-    Paint paint;
-    boolean isDead = false;
-    Bitmap back;
-    float speed = 30.5f;
-    static int backWidth, backHeight;
+    private float x, y;
+    private Paint paint;
+    public boolean isDead = false;
+    private Bitmap back;
+    private float speed = 30.5f;
+    private static int backWidth, backHeight;
 
     public ZiDan(Bitmap back, Hero hero) {
         this.back = back;
