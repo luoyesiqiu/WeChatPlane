@@ -18,10 +18,12 @@ import android.app.*;
 import android.os.*;
 
 import com.luoye.wechatplane.res.AssetUtils;
+import com.luoye.wechatplane.util.BitmapUtils;
 
 public class MainSurface extends SurfaceView implements
         SurfaceHolder.Callback, Runnable, OnGestureListener, OnTouchListener {
 
+    private static final String TAG = MainSurface.class.getSimpleName();
     //游戏状态:0没开始，1游戏中，2游戏结束
     private final byte G_UNSTART = 0, G_ING = 1, G_OVER = 2;
     private SoundPool soundPool = null;
@@ -95,8 +97,8 @@ public class MainSurface extends SurfaceView implements
         planeBmp = AssetUtils.getImageFromAssetsFile(context,"image/plane.png");
 
         //从plane.png这张图片的一部分获得英雄的位图对象
-        heroBmp[0] = planeBmp.createBitmap(planeBmp, 66, 168, 62, 68);
-        heroBmp[1] = planeBmp.createBitmap(planeBmp, 2, 168, 62, 75);
+        heroBmp[0] = BitmapUtils.resize(planeBmp.createBitmap(planeBmp, 66, 168, 62, 68),1.5f);
+        heroBmp[1] = BitmapUtils.resize(planeBmp.createBitmap(planeBmp, 2, 168, 62, 75),1.5f);
 
         //子弹的图
         zidanBmp = planeBmp.createBitmap(planeBmp, 112, 2, 9, 17);
@@ -145,7 +147,7 @@ public class MainSurface extends SurfaceView implements
             e.printStackTrace();
         }
 
-        gd = new GestureDetector(this);
+        gd = new GestureDetector(context,this);
         this.setLongClickable(true);//重要
         this.setOnTouchListener(this);
         g_state = G_ING;
@@ -359,6 +361,7 @@ public class MainSurface extends SurfaceView implements
 
     @Override
     public boolean onDown(MotionEvent p1) {
+        Logger.d(Const.LOG_TAG,"%s","onDown");
         hero.onDown(p1);
         return false;
     }
@@ -374,6 +377,8 @@ public class MainSurface extends SurfaceView implements
 
     @Override
     public boolean onScroll(MotionEvent p1, MotionEvent p2, float p3, float p4) {
+        Logger.d(Const.LOG_TAG,"%s","onScroll");
+
         hero.onScroll(p1, p2, p3, p4);
         return false;
     }
@@ -384,6 +389,8 @@ public class MainSurface extends SurfaceView implements
 
     @Override
     public boolean onFling(MotionEvent p1, MotionEvent p2, float p3, float p4) {
+        Logger.d(Const.LOG_TAG,"%s %f %f","onFling",p3,p4);
+
         hero.onFling(p1, p2, p3, p4);
         return false;
     }

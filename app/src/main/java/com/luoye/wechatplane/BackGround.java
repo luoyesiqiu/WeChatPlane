@@ -60,7 +60,7 @@ public class BackGround {
             if ((backBaseLine.get(0) - back1.getHeight()) >= MainSurface.sh) {
                 backBaseLine.remove(0);
                 backBaseLine.add(backBaseLine.get(backBaseLine.size() - 1)- back1.getHeight());
-                Log.d(Const.LOG_TAG, backBaseLine.toString());
+                Logger.d(Const.LOG_TAG,"%s","onScroll");
 
             }
         }
