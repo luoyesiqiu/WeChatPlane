@@ -343,7 +343,7 @@ public class MainSurface extends SurfaceView implements
             }
             /*以下判断敌机是否碰到英雄*/
             for (int i = 0; i < enemyPlaneList.size(); i++) {
-                if (enemyPlaneList.get(i).isHit(hero)) {
+                if (enemyPlaneList.get(i).isCollision(hero)) {
                     hero.isDead = true;
                 }
             }
