@@ -234,11 +234,12 @@ public class MainSurface extends SurfaceView implements
         //死了，就向Handler发送消息
         else {
             //等于false，停止run方法下的循环。
-            flag = false;
-            soundPool.pause(shootId);
-            soundPool.pause(explosionId);
-            handler.sendEmptyMessage(0);
-
+            if(flag) {
+                flag = false;
+                soundPool.pause(shootId);
+                soundPool.pause(explosionId);
+                handler.sendEmptyMessage(0);
+            }
         }
 
         //绘制敌机
