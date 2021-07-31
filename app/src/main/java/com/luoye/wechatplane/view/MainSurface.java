@@ -180,8 +180,9 @@ public class MainSurface extends SurfaceView implements
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 0) {
+                String message = String.format("游戏已结束，得分：%d，是否要继续？",Hero.score);
                 Dialog dl = new AlertDialog.Builder(context)
-                        .setMessage("游戏已结束，是否要继续？")
+                        .setMessage(message)
                         .setCancelable(false)
                         .setNegativeButton("否", (p1, p2) -> {
                             //退出游戏
