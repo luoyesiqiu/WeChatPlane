@@ -23,8 +23,6 @@ public abstract class Plane extends GameObject {
     public float speed;
     //敌机的血
     private int hp;
-    //画笔
-    public Paint paint;
     //随机数
     public Random rd;
 

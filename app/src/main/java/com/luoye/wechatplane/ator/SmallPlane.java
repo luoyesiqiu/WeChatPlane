@@ -20,7 +20,5 @@ public class SmallPlane extends EnemyPlane {
         backHeight = this.back.getHeight();
         rd = new Random();
         this.x = rd.nextInt(MainSurface.sw - backWidth);
-        paint = new Paint();
-        paint.setAntiAlias(true);
     }
 }
