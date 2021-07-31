@@ -63,7 +63,7 @@ public class Hero extends Plane{
             }
 
         }
-        //————边界判断
+        /*边界判断*/
         if (this.x < 0) {
             x = 0;
         } else if (this.y < 0) {
@@ -73,7 +73,6 @@ public class Hero extends Plane{
         } else if ((this.y + backHeight) > MainSurface.sh) {
             y = MainSurface.sh - backHeight;
         }
-        //————
         return false;
     }
 
