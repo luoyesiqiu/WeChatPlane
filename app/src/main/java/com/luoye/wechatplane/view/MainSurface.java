@@ -79,7 +79,7 @@ public class MainSurface extends SurfaceView implements
     //游戏状态
     private byte g_state;
     //设置创建子弹和各种敌机的时间
-    private final int bulletCreateTime = 3;
+    private final int bulletCreateTime = 4;
     private final int smallPlaneCreateTime = 6;
     private final int mediumPlaneCreateTime = 80;
     private final int bigPlaneCreateTime = 300;
@@ -367,7 +367,7 @@ public class MainSurface extends SurfaceView implements
                 this.logic();
             }
             try {
-                Thread.sleep(30);
+                Thread.sleep(20);
             } catch (InterruptedException e) {
             } finally {
                 //如果画布不为空时提交画布
