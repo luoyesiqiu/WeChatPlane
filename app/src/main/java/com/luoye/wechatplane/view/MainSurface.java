@@ -19,7 +19,7 @@ import android.os.*;
 import com.luoye.wechatplane.ator.BackGround;
 import com.luoye.wechatplane.ator.EnemyPlane;
 import com.luoye.wechatplane.ator.Explode;
-import com.luoye.wechatplane.ator.Const;
+import com.luoye.wechatplane.util.Const;
 import com.luoye.wechatplane.ator.BigPlane;
 import com.luoye.wechatplane.ator.Hero;
 import com.luoye.wechatplane.ator.Plane;
@@ -29,6 +29,7 @@ import com.luoye.wechatplane.ator.Bullet;
 import com.luoye.wechatplane.res.AssetUtils;
 import com.luoye.wechatplane.util.BitmapUtils;
 import com.luoye.wechatplane.util.Logger;
+import com.luoye.wechatplane.util.Utils;
 
 public class MainSurface extends SurfaceView implements
         SurfaceHolder.Callback, Runnable, OnGestureListener, OnTouchListener {
@@ -190,8 +191,10 @@ public class MainSurface extends SurfaceView implements
                             System.exit(0);
                         })
                         .setPositiveButton("是", (p1, p2) -> {
-
                             reset();
+                        })
+                        .setNeutralButton("开源代码",(p1,p2)->{
+                            Utils.goToGithub(context);
                         })
                         .create();
                 dl.show();

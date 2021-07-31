@@ -3,6 +3,7 @@ package com.luoye.wechatplane.ator;
 import android.graphics.*;
 import android.util.*;
 
+import com.luoye.wechatplane.util.Const;
 import com.luoye.wechatplane.util.Logger;
 import com.luoye.wechatplane.view.MainSurface;
 
