@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * 中型敌机类
  */
-public class MediumPlane extends Plane {
+public class MediumPlane extends EnemyPlane {
 
     public MediumPlane(Bitmap back, int speed) {
         this.back = back;

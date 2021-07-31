@@ -6,7 +6,7 @@ import android.view.*;
 import com.luoye.wechatplane.view.MainSurface;
 
 //主角类
-public class Hero {
+public class Hero extends Plane{
     public float x, y;
     private float tempX, tempY;
     private Paint paint;

@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * 大型敌机类
  */
-public class BigPlane extends Plane {
+public class BigPlane extends EnemyPlane {
     public BigPlane(Bitmap back, int speed) {
         this.back = back;
         backWidth = this.back.getWidth();

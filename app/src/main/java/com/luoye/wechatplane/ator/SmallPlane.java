@@ -9,7 +9,7 @@ import com.luoye.wechatplane.view.MainSurface;
 /**
  * 小型敌机类
  */
-public class SmallPlane extends Plane {
+public class SmallPlane extends EnemyPlane {
     public SmallPlane(Bitmap back, int speed) {
         this.back = back;
         setHp(1);

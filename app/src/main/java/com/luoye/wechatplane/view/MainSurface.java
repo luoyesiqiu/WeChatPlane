@@ -17,6 +17,7 @@ import android.app.*;
 import android.os.*;
 
 import com.luoye.wechatplane.ator.BackGround;
+import com.luoye.wechatplane.ator.EnemyPlane;
 import com.luoye.wechatplane.ator.Explode;
 import com.luoye.wechatplane.ator.Const;
 import com.luoye.wechatplane.ator.BigPlane;
@@ -69,7 +70,7 @@ public class MainSurface extends SurfaceView implements
     //爆炸
     private List<Explode> explodeList;
     //敌机
-    private List<Plane> enemyPlaneList;
+    private List<EnemyPlane> enemyPlaneList;
     //画布类
     private Canvas canvas;
     //游戏状态
