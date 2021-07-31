@@ -301,6 +301,10 @@ public class MainSurface extends SurfaceView implements
                     bz.logic();
 
             }
+
+            //敌机下降速度逻辑
+            dropSpeed = baseDropSpeed + (Hero.score / 100);
+
             frame++;
             //到时间就创建子弹、敌机
             if (frame % bulletCreateTime == 0) {
