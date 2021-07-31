@@ -56,13 +56,14 @@ public class BackGround extends GameObject{
     public void logic() {
         for (int i = 0; i < backBaseLine.size(); i++) {
             backBaseLine.set(i, backBaseLine.get(i) + moveSpeed);
-
-            if ((backBaseLine.get(0) - back1.getHeight()) >= MainSurface.surfaceHeight) {
-                backBaseLine.remove(0);
-                backBaseLine.add(backBaseLine.get(backBaseLine.size() - 1)- back1.getHeight());
-                Logger.d(Const.LOG_TAG,"%s","onScroll");
-
-            }
         }
+
+        if ((backBaseLine.get(0) - back1.getHeight()) >= MainSurface.surfaceHeight) {
+            backBaseLine.remove(0);
+            backBaseLine.add(backBaseLine.get(backBaseLine.size() - 1)- back1.getHeight());
+            Logger.d(Const.LOG_TAG,"%s","onScroll");
+
+        }
+
     }
 }
