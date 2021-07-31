@@ -10,8 +10,6 @@ import java.util.*;
  * 敌机的抽象类,所有的敌机都要继承它
  */
 public abstract class Plane extends GameObject {
-    //背景图
-    public Bitmap back;
     //敌机坐标
     public float x, y;
     //背景图的宽，高

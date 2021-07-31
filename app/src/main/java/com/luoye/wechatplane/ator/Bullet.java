@@ -5,9 +5,8 @@ import android.graphics.*;
 /**
  * 子弹类
  */
-public class Bullet {
+public class Bullet extends GameObject{
     private float x, y;
-    private Paint paint;
     public boolean isDead = false;
     private Bitmap back;
     private float speed = 30.5f;
@@ -19,8 +18,6 @@ public class Bullet {
         this.backHeight = back.getHeight();
         this.x = (hero.x + hero.backWidth / 2) - this.backWidth / 2;
         this.y = hero.y - this.backHeight;
-        paint = new Paint();
-        paint.setAntiAlias(true);
     }
 
     public void logic() {
@@ -29,13 +26,19 @@ public class Bullet {
         this.isDead = ((this.y + this.backHeight) <= 0) ? true : false;
     }
 
+    @Override
     public void draw(Canvas canvas) {
         canvas.drawBitmap(back, x, y, paint);
     }
 
     //判断子弹是否击中敌机
-    public boolean isHit(Plane plane) {
-        if (((plane.y >= this.y) && (this.x >= plane.x) && (this.x <= plane.x + plane.backWidth))) {
+    public boolean isHit(EnemyPlane plane) {
+        if (this.x < plane.x + plane.backWidth &&
+                this.x + backWidth > plane.x &&
+                this.y < plane.y + plane.backHeight &&
+                this.y + backHeight > plane.y
+
+        ){
             //击中,敌机血-1，下同
             plane.hpDown();
             return true;
