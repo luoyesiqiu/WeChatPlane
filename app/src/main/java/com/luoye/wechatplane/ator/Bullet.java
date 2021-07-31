@@ -5,7 +5,7 @@ import android.graphics.*;
 /**
  * 子弹类
  */
-public class ZiDan {
+public class Bullet {
     private float x, y;
     private Paint paint;
     public boolean isDead = false;
@@ -13,7 +13,7 @@ public class ZiDan {
     private float speed = 30.5f;
     private static int backWidth, backHeight;
 
-    public ZiDan(Bitmap back, Hero hero) {
+    public Bullet(Bitmap back, Hero hero) {
         this.back = back;
         this.backWidth = back.getWidth();
         this.backHeight = back.getHeight();

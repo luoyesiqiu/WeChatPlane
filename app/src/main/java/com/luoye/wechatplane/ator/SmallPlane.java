@@ -2,26 +2,24 @@ package com.luoye.wechatplane.ator;
 
 import android.graphics.*;
 
-import com.luoye.wechatplane.view.MainSurface;
-
 import java.util.*;
 
+import com.luoye.wechatplane.view.MainSurface;
+
 /**
- * 大型敌机类
+ * 小型敌机类
  */
-public class DaDiJi extends Plane {
-    public DaDiJi(Bitmap back) {
+public class SmallPlane extends Plane {
+    public SmallPlane(Bitmap back, int speed) {
         this.back = back;
+        setHp(1);
+        this.speed = speed;
+        isDead = false;
         backWidth = this.back.getWidth();
         backHeight = this.back.getHeight();
-        speed = 10;
-        setHp(20);
-        isDead = false;
         rd = new Random();
         this.x = rd.nextInt(MainSurface.sw - backWidth);
         paint = new Paint();
         paint.setAntiAlias(true);
     }
-
 }
-

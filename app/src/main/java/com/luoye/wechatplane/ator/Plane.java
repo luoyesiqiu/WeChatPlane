@@ -43,10 +43,12 @@ public abstract class Plane {
                 ((this.y > hero.y) && (this.x > hero.x) && (this.x < (hero.x + hero.backWidth)) && (this.y < (hero.y + hero.backHeight)))
                         || ((this.x + this.backWidth) > hero.x && (this.x + this.backWidth) < (hero.x + hero.backWidth)
                         && ((this.y + this.backHeight) > hero.y && (this.y + this.backHeight) < (hero.y + hero.backHeight)))
-        )
+        ) {
             return true;
-        else
+        }
+        else {
             return false;
+        }
     }
 
     public void hpDown(){

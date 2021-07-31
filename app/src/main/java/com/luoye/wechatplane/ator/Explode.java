@@ -5,16 +5,16 @@ import android.graphics.*;
 /**
  * 敌机爆炸类
  */
-public class BaoZha {
+public class Explode {
     private Bitmap back;
     private Paint paint;
     private int backWidth, backHeight;
-    private Plane dj;
+    private Plane plane;
     public boolean isDead = false;
 
-    public BaoZha(Bitmap back, Plane dj) {
+    public Explode(Bitmap back, Plane plane) {
         this.back = back;
-        this.dj = dj;
+        this.plane = plane;
         backWidth = this.back.getWidth();
         backHeight = this.back.getHeight();
         paint = new Paint();
@@ -22,7 +22,7 @@ public class BaoZha {
     }
 
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(back, dj.x + dj.backWidth / 2 - backWidth / 2, dj.y + dj.backHeight / 2 - backHeight / 2, paint);
+        canvas.drawBitmap(back, plane.x + plane.backWidth / 2 - backWidth / 2, plane.y + plane.backHeight / 2 - backHeight / 2, paint);
     }
 
     public void logic() {
