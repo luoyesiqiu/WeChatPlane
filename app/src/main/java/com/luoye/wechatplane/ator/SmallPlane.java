@@ -19,6 +19,6 @@ public class SmallPlane extends EnemyPlane {
         backWidth = this.back.getWidth();
         backHeight = this.back.getHeight();
         rd = new Random();
-        this.x = rd.nextInt(MainSurface.sw - backWidth);
+        this.x = rd.nextInt(MainSurface.surfaceWidth - backWidth);
     }
 }

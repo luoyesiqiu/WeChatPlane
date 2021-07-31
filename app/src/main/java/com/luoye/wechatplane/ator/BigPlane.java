@@ -18,7 +18,7 @@ public class BigPlane extends EnemyPlane {
         setHp(20);
         isDead = false;
         rd = new Random();
-        this.x = rd.nextInt(MainSurface.sw - backWidth);
+        this.x = rd.nextInt(MainSurface.surfaceWidth - backWidth);
     }
 
 }

@@ -19,6 +19,8 @@ import android.os.*;
 import com.luoye.wechatplane.ator.BackGround;
 import com.luoye.wechatplane.ator.EnemyPlane;
 import com.luoye.wechatplane.ator.Explode;
+import com.luoye.wechatplane.ator.IDrawable;
+import com.luoye.wechatplane.ator.ILogical;
 import com.luoye.wechatplane.util.Const;
 import com.luoye.wechatplane.ator.BigPlane;
 import com.luoye.wechatplane.ator.Hero;
@@ -32,7 +34,7 @@ import com.luoye.wechatplane.util.Logger;
 import com.luoye.wechatplane.util.Utils;
 
 public class MainSurface extends SurfaceView implements
-        SurfaceHolder.Callback, Runnable, OnGestureListener, OnTouchListener {
+        SurfaceHolder.Callback, Runnable, OnGestureListener, OnTouchListener, ILogical, IDrawable {
 
     private static final String TAG = MainSurface.class.getSimpleName();
     //游戏状态:0没开始，1游戏中，2游戏结束
@@ -60,7 +62,7 @@ public class MainSurface extends SurfaceView implements
     //烟雾的背景图
     //Bitmap yan1Bmp,yan2Bmp;
     //屏幕高和宽
-    public static int sw, sh;
+    public static int surfaceWidth, surfaceHeight;
     //背景图类
     private BackGround bg;
     //英雄类
@@ -132,8 +134,8 @@ public class MainSurface extends SurfaceView implements
 
     public void surfaceCreated(SurfaceHolder p1) {
         //获取屏幕大小
-        sw = getWidth();
-        sh = getHeight();
+        surfaceWidth = getWidth();
+        surfaceHeight = getHeight();
 
         //加载资源
         loadRes();
@@ -147,7 +149,7 @@ public class MainSurface extends SurfaceView implements
         paint = new Paint();
         paint.setAntiAlias(true);
         paint.setTextSize(28.0f);
-        hero = new Hero(heroBmp,sw / 2 - heroBmp[0].getWidth() / 2, sh - heroBmp[0].getHeight() * 3);
+        hero = new Hero(heroBmp, surfaceWidth / 2 - heroBmp[0].getWidth() / 2, surfaceHeight - heroBmp[0].getHeight() * 3);
 
         //保持开启屏幕
         this.setKeepScreenOn(true);
@@ -208,8 +210,8 @@ public class MainSurface extends SurfaceView implements
     private void reset(){
         dropSpeed = baseDropSpeed;
         hero.isDead = false;
-        hero.x = sw / 2 - heroBmp[0].getWidth() / 2;
-        hero.y = sh - heroBmp[0].getHeight() * 3;
+        hero.x = surfaceWidth / 2 - heroBmp[0].getWidth() / 2;
+        hero.y = surfaceHeight - heroBmp[0].getHeight() * 3;
         flag = true;
         frame = 0;
         enemyPlaneList.clear();
@@ -224,9 +226,10 @@ public class MainSurface extends SurfaceView implements
     /**
      * 主绘图方法
      */
-    public void draw() {
+    @Override
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
         bg.draw(canvas);
-        bg.drawScore(canvas);
         //英雄没死的时候绘图
         if (!hero.isDead) {
             hero.draw(canvas);
@@ -237,7 +240,7 @@ public class MainSurface extends SurfaceView implements
         //死了，就向Handler发送消息
         else {
             //等于false，停止run方法下的循环。
-            if(flag) {
+            if (flag) {
                 flag = false;
                 soundPool.pause(shootId);
                 soundPool.pause(explosionId);
@@ -251,13 +254,15 @@ public class MainSurface extends SurfaceView implements
         }
 
         //绘制爆炸
-        for (int i = 0; i < explodeList.size(); i++)
+        for (int i = 0; i < explodeList.size(); i++) {
             explodeList.get(i).draw(canvas);
+        }
     }
 
     /**
      * 主逻辑方法
      */
+    @Override
     public void logic() {
 
         if (!hero.isDead) {
@@ -358,7 +363,7 @@ public class MainSurface extends SurfaceView implements
             canvas = sfh.lockCanvas();
             //如果画布不为空时绘图
             if (canvas != null) {
-                this.draw();
+                this.draw(canvas);
                 this.logic();
             }
             try {

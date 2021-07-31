@@ -65,10 +65,10 @@ public class Hero extends Plane{
             x = 0;
         } else if (this.y < 0) {
             y = 0;
-        } else if ((this.x + backWidth) > MainSurface.sw) {
-            x = MainSurface.sw - backWidth;
-        } else if ((this.y + backHeight) > MainSurface.sh) {
-            y = MainSurface.sh - backHeight;
+        } else if ((this.x + backWidth) > MainSurface.surfaceWidth) {
+            x = MainSurface.surfaceWidth - backWidth;
+        } else if ((this.y + backHeight) > MainSurface.surfaceHeight) {
+            y = MainSurface.surfaceHeight - backHeight;
         }
         return false;
     }

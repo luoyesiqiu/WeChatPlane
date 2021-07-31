@@ -15,25 +15,21 @@ import java.util.List;
  */
 public class BackGround extends GameObject{
     private Bitmap back1, back2;
-    private final int moveSpeed = 5;
-    private Paint paint;
-    private Canvas canvas;
+    private final int moveSpeed = 4;
     private List<Integer> backBaseLine = new ArrayList<>();
     private final int lineCount = 6;
     public BackGround(Bitmap back1, Bitmap back2) {
         this.back1 = back1;
         this.back2 = back2;
-        paint = new Paint();
         paint.setColor(Color.BLACK);
-        paint.setTextSize(MainSurface.sw/20);
-        paint.setAntiAlias(true);
+        paint.setTextSize(MainSurface.surfaceWidth /20);
         resetBaseLine();
     }
 
     public void resetBaseLine(){
 
         for (int i = 0; i < lineCount; i++) {
-            int baseLine = MainSurface.sh - (i * back1.getHeight());
+            int baseLine = MainSurface.surfaceHeight - (i * back1.getHeight());
             backBaseLine.add(baseLine);
         }
         Log.d(Const.LOG_TAG, "init baseLine = " + backBaseLine.toString());
@@ -41,7 +37,7 @@ public class BackGround extends GameObject{
 
     @Override
     public void draw(Canvas canvas) {
-        this.canvas = canvas;
+
         for (int i = 0; i < backBaseLine.size(); i++) {
             //绘制首列
             canvas.drawBitmap(back1, 0, backBaseLine.get(i), paint);
@@ -50,12 +46,10 @@ public class BackGround extends GameObject{
                 canvas.drawBitmap(back2, back1.getWidth() * j, backBaseLine.get(i), paint);
             }
         }
+        //绘制分数。要放绘制背景之后，不然会被背景覆盖
+        canvas.drawText("Score:" + Hero.score, MainSurface.surfaceWidth /20, MainSurface.surfaceWidth /20, paint);
     }
 
-    //画分数
-    public void drawScore(Canvas canvas) {
-        canvas.drawText("Score:" + Hero.score, MainSurface.sw/20, MainSurface.sw/20, paint);
-    }
 
     //背景逻辑
     @Override
@@ -63,7 +57,7 @@ public class BackGround extends GameObject{
         for (int i = 0; i < backBaseLine.size(); i++) {
             backBaseLine.set(i, backBaseLine.get(i) + moveSpeed);
 
-            if ((backBaseLine.get(0) - back1.getHeight()) >= MainSurface.sh) {
+            if ((backBaseLine.get(0) - back1.getHeight()) >= MainSurface.surfaceHeight) {
                 backBaseLine.remove(0);
                 backBaseLine.add(backBaseLine.get(backBaseLine.size() - 1)- back1.getHeight());
                 Logger.d(Const.LOG_TAG,"%s","onScroll");
