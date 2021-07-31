@@ -6,9 +6,8 @@
 
     <application
         android:icon="@mipmap/icon"
-        android:label="仿飞机大战" >
+        android:label="@string/app_name" >
         <activity
-			android:label="仿飞机大战"
             android:name=".MainActivity" 
 			android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
             <intent-filter >
