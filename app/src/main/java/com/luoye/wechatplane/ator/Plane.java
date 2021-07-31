@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * 敌机的抽象类,所有的敌机都要继承它
  */
-public abstract class Plane {
+public abstract class Plane extends GameObject {
     //背景图
     public Bitmap back;
     //敌机坐标
@@ -27,13 +27,6 @@ public abstract class Plane {
     public Paint paint;
     //随机数
     public Random rd;
-
-    public void draw(Canvas canvas) {
-        canvas.drawBitmap(back, this.x, this.y, paint);
-    }
-
-    public abstract void logic();
-
 
     public void hpDown(){
         this.hp -= 1;

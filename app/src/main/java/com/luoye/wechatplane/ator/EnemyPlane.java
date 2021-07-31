@@ -1,8 +1,21 @@
 package com.luoye.wechatplane.ator;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+
 import com.luoye.wechatplane.view.MainSurface;
 
 public abstract class EnemyPlane extends Plane {
+    protected Bitmap back;
+    public EnemyPlane(Bitmap back) {
+        this.back = back;
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        canvas.drawBitmap(back, this.x, this.y, paint);
+    }
+
     @Override
     public void logic() {
         this.y += this.speed;

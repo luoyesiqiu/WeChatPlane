@@ -9,19 +9,16 @@ import com.luoye.wechatplane.view.MainSurface;
 public class Hero extends Plane{
     public float x, y;
     private float tempX, tempY;
-    private Paint paint;
-    private Bitmap[] back;
+    private final Bitmap[] back;
     private int backIndex = 0;
     public static int score = 0;
     public boolean isDead = false;
     int backWidth, backHeight;
 
-    public Hero(int x, int y, Bitmap[] back) {
+    public Hero(Bitmap[] back,int x, int y) {
         this.x = x;
         this.y = y;
         this.back = back;
-        paint = new Paint();
-        paint.setAntiAlias(true);
         backWidth = back[0].getWidth();
         backHeight = back[0].getHeight();
     }

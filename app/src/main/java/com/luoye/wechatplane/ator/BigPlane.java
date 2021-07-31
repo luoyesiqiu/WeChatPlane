@@ -11,7 +11,7 @@ import java.util.*;
  */
 public class BigPlane extends EnemyPlane {
     public BigPlane(Bitmap back, int speed) {
-        this.back = back;
+        super(back);
         backWidth = this.back.getWidth();
         backHeight = this.back.getHeight();
         this.speed = speed;

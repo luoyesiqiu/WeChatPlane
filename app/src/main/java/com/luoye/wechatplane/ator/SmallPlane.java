@@ -11,6 +11,7 @@ import com.luoye.wechatplane.view.MainSurface;
  */
 public class SmallPlane extends EnemyPlane {
     public SmallPlane(Bitmap back, int speed) {
+        super(back);
         this.back = back;
         setHp(1);
         this.speed = speed;

@@ -147,7 +147,7 @@ public class MainSurface extends SurfaceView implements
         paint = new Paint();
         paint.setAntiAlias(true);
         paint.setTextSize(28.0f);
-        hero = new Hero(sw / 2 - heroBmp[0].getWidth() / 2, sh - heroBmp[0].getHeight() * 3, heroBmp);
+        hero = new Hero(heroBmp,sw / 2 - heroBmp[0].getWidth() / 2, sh - heroBmp[0].getHeight() * 3);
 
         //保持开启屏幕
         this.setKeepScreenOn(true);

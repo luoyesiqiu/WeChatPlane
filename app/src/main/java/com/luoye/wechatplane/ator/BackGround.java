@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * 背景类
  */
-public class BackGround {
+public class BackGround extends GameObject{
     private Bitmap back1, back2;
     private final int moveSpeed = 5;
     private Paint paint;
@@ -39,6 +39,7 @@ public class BackGround {
         Log.d(Const.LOG_TAG, "init baseLine = " + backBaseLine.toString());
     }
 
+    @Override
     public void draw(Canvas canvas) {
         this.canvas = canvas;
         for (int i = 0; i < backBaseLine.size(); i++) {
@@ -57,6 +58,7 @@ public class BackGround {
     }
 
     //背景逻辑
+    @Override
     public void logic() {
         for (int i = 0; i < backBaseLine.size(); i++) {
             backBaseLine.set(i, backBaseLine.get(i) + moveSpeed);

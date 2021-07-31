@@ -12,6 +12,7 @@ import java.util.*;
 public class MediumPlane extends EnemyPlane {
 
     public MediumPlane(Bitmap back, int speed) {
+        super(back);
         this.back = back;
         this.speed = speed;
         setHp(10);
