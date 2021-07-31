@@ -42,6 +42,7 @@ public class MainSurface extends SurfaceView implements
     private SoundPool soundPool = null;
     private int shootId;
     private int explosionId;
+    private int boomId;
     GestureDetector gd;
     private Context context;
     private SurfaceHolder sfh;
@@ -158,6 +159,7 @@ public class MainSurface extends SurfaceView implements
         try {
             explosionId = soundPool.load(context.getAssets().openFd("sound/explosion.mp3"), 0);
             shootId = soundPool.load(context.getAssets().openFd("sound/shoot.mp3"), 0);
+            boomId = soundPool.load(context.getAssets().openFd("sound/boom.mp3"), 0);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -223,6 +225,12 @@ public class MainSurface extends SurfaceView implements
         gameThread.start();
     }
 
+    private void pauseSound(){
+        soundPool.pause(shootId);
+        soundPool.pause(explosionId);
+        soundPool.pause(boomId);
+    }
+
     /**
      * 主绘图方法
      */
@@ -242,8 +250,7 @@ public class MainSurface extends SurfaceView implements
             //等于false，停止run方法下的循环。
             if (flag) {
                 flag = false;
-                soundPool.pause(shootId);
-                soundPool.pause(explosionId);
+                pauseSound();
                 handler.sendEmptyMessage(0);
             }
         }
@@ -350,6 +357,7 @@ public class MainSurface extends SurfaceView implements
             for (int i = 0; i < enemyPlaneList.size(); i++) {
                 if (enemyPlaneList.get(i).isCollision(hero)) {
                     hero.isDead = true;
+                    playSound(boomId);
                 }
             }
 
