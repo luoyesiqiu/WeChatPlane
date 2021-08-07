@@ -24,10 +24,10 @@ public abstract class EnemyPlane extends Plane {
     }
 
     public boolean isCollision(Hero hero) {
-        if (this.x < hero.x + hero.backWidth &&
-            this.x + this.backWidth > hero.x &&
-            this.y < hero.y + hero.backHeight &&
-                this.y + this.backHeight > hero.y
+        if (this.x < hero.getX() + hero.backWidth &&
+            this.x + this.backWidth > hero.getX() &&
+            this.y < hero.getY() + hero.backHeight &&
+                this.y + this.backHeight > hero.getY()
 
         ) {
             return true;

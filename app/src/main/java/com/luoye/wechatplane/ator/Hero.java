@@ -7,11 +7,11 @@ import com.luoye.wechatplane.view.MainSurface;
 
 //主角类
 public class Hero extends Plane{
-    public float x, y;
+    private float x, y;
     private float tempX, tempY;
     private final Bitmap[] back;
     private int backIndex = 0;
-    public static int score = 0;
+    private static int score = 0;
     public boolean isDead = false;
     int backWidth, backHeight;
 
@@ -71,6 +71,34 @@ public class Hero extends Plane{
             y = MainSurface.surfaceHeight - backHeight;
         }
         return false;
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public static int getScore(){
+        return score;
+    }
+
+    public int addScore(int value){
+        return score += value;
+    }
+
+    public int resetScore(){
+        return score = 0;
     }
 
 }

@@ -16,8 +16,8 @@ public class Bullet extends GameObject{
         this.back = back;
         this.backWidth = back.getWidth();
         this.backHeight = back.getHeight();
-        this.x = (hero.x + hero.backWidth / 2) - this.backWidth / 2;
-        this.y = hero.y - this.backHeight;
+        this.x = (hero.getX() + hero.backWidth / 2) - this.backWidth / 2;
+        this.y = hero.getY() - this.backHeight;
     }
 
     public void logic() {

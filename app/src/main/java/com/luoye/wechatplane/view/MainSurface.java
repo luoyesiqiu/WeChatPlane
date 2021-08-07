@@ -186,7 +186,7 @@ public class MainSurface extends SurfaceView implements
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 0) {
-                String message = String.format("游戏已结束，得分：%d，是否要继续？",Hero.score);
+                String message = String.format("游戏已结束，得分：%d，是否要继续？",hero.getScore());
                 Dialog dl = new AlertDialog.Builder(context)
                         .setMessage(message)
                         .setCancelable(false)
@@ -212,15 +212,15 @@ public class MainSurface extends SurfaceView implements
     private void reset(){
         dropSpeed = baseDropSpeed;
         hero.isDead = false;
-        hero.x = surfaceWidth / 2 - heroBmp[0].getWidth() / 2;
-        hero.y = surfaceHeight - heroBmp[0].getHeight() * 3;
+        hero.setX(surfaceWidth / 2 - heroBmp[0].getWidth() / 2);
+        hero.setY(surfaceHeight - heroBmp[0].getHeight() * 3);
+        hero.resetScore();
         flag = true;
         frame = 0;
         enemyPlaneList.clear();
         bulletList.clear();
         explodeList.clear();
         bg.resetBaseLine();
-        Hero.score = 0;
         gameThread = new Thread(MainSurface.this);
         gameThread.start();
     }
@@ -292,11 +292,11 @@ public class MainSurface extends SurfaceView implements
                     enemyPlaneList.remove(i);
                 } else if (enemyPlane.getHp() <= 0) {
                     if (enemyPlane instanceof SmallPlane) {
-                        Hero.score += 1;
+                        hero.addScore(1);
                     } else if (enemyPlane instanceof MediumPlane) {
-                        Hero.score += 10;
+                        hero.addScore(10);
                     } else if (enemyPlane instanceof BigPlane) {
-                        Hero.score += 20;
+                        hero.addScore(20);
                     }
                     enemyPlaneList.remove(i);
 
@@ -318,7 +318,7 @@ public class MainSurface extends SurfaceView implements
             }
 
             //敌机下降速度逻辑
-            dropSpeed = baseDropSpeed + (Hero.score / 100);
+            dropSpeed = baseDropSpeed + (hero.getScore() / 100);
 
             frame++;
             //到时间就创建子弹、敌机

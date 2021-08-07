@@ -47,7 +47,7 @@ public class BackGround extends GameObject{
             }
         }
         //绘制分数。要放绘制背景之后，不然会被背景覆盖
-        canvas.drawText("Score:" + Hero.score, MainSurface.surfaceWidth /20, MainSurface.surfaceWidth /20, paint);
+        canvas.drawText("Score:" + Hero.getScore(), MainSurface.surfaceWidth /20, MainSurface.surfaceWidth /20, paint);
     }
 
 
