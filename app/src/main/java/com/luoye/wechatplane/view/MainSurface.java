@@ -10,6 +10,9 @@ import android.graphics.*;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import android.view.View.*;
 import android.view.GestureDetector.*;
@@ -34,7 +37,7 @@ import com.luoye.wechatplane.util.Logger;
 import com.luoye.wechatplane.util.Utils;
 
 public class MainSurface extends SurfaceView implements
-        SurfaceHolder.Callback, Runnable, OnGestureListener, OnTouchListener, ILogical, IDrawable {
+        SurfaceHolder.Callback, OnGestureListener, OnTouchListener, ILogical, IDrawable {
 
     private static final String TAG = MainSurface.class.getSimpleName();
     //游戏状态:0没开始，1游戏中，2游戏结束
@@ -43,7 +46,7 @@ public class MainSurface extends SurfaceView implements
     private int shootId;
     private int explosionId;
     private int boomId;
-    GestureDetector gd;
+    private GestureDetector gd;
     private Context context;
     private SurfaceHolder sfh;
     private Paint paint;
@@ -86,12 +89,11 @@ public class MainSurface extends SurfaceView implements
     private final int bigPlaneCreateTime = 300;
     //用来计帧数
     private long frame = 0;
-    //控制刷新屏幕的循环是否继续
-    private boolean flag = true;
+    //控制游戏循环
+    private Boolean flag = true;
     private final int baseDropSpeed = 10;
     private int dropSpeed = baseDropSpeed;
 
-    private Thread gameThread;
     private Handler soundHandler;
 
     public MainSurface(Context context) {
@@ -169,16 +171,24 @@ public class MainSurface extends SurfaceView implements
         this.setOnTouchListener(this);
         g_state = G_ING;
         //线程初始化，放在此处。避免最小化又打开游戏时又开启一个线程
-        gameThread = new Thread(this);
-        gameThread.start();
+        startCoreThread();
         HandlerThread soundHandlerThread = new HandlerThread("sound");
         soundHandlerThread.start();
         soundHandler = new Handler(soundHandlerThread.getLooper());
+
+    }
+
+    private void startCoreThread(){
+        LogicThread logicThread = new LogicThread("logic");
+        logicThread.start();
+
+        DrawThread drawThread = new DrawThread("draw");
+        drawThread.start();
     }
 
     private void playSound(final int id) {
         soundHandler.post(() -> {
-            soundPool.play(id, 0.5f, 1, 0, 0, 2f);
+            soundPool.play(id, 0.5f, 1, 0, 0, 1f);
         });
     }
 
@@ -221,8 +231,7 @@ public class MainSurface extends SurfaceView implements
         bulletList.clear();
         explodeList.clear();
         bg.resetBaseLine();
-        gameThread = new Thread(MainSurface.this);
-        gameThread.start();
+        startCoreThread();
     }
 
     private void pauseSound(){
@@ -247,7 +256,7 @@ public class MainSurface extends SurfaceView implements
         }
         //死了，就向Handler发送消息
         else {
-            //等于false，停止run方法下的循环。
+            //停止循环。
             if (flag) {
                 flag = false;
                 pauseSound();
@@ -365,26 +374,51 @@ public class MainSurface extends SurfaceView implements
 
     }//logic 方法结尾
 
-    @Override
-    public void run() {
-        while (flag) {
-            canvas = sfh.lockCanvas();
-            //如果画布不为空时绘图
-            if (canvas != null) {
-                this.draw(canvas);
-                this.logic();
-            }
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException e) {
-            } finally {
-                //如果画布不为空时提交画布
-                if (canvas != null) {
-                    sfh.unlockCanvasAndPost(canvas);
+    private class LogicThread extends Thread{
+        public LogicThread(String name){
+            super(name);
+        }
+        @Override
+        public void run() {
+            while (flag) {
+                synchronized (flag) {
+                    logic();
+                }
+                try {
+                    Thread.sleep(30);
+                } catch (InterruptedException e) {
                 }
             }
         }
+    }
 
+    private class DrawThread extends Thread {
+        public DrawThread(String name){
+            super(name);
+        }
+        @Override
+        public void run() {
+            while (flag) {
+                canvas = sfh.lockCanvas();
+                //如果画布不为空时绘图
+                if (canvas != null) {
+                    synchronized (flag) {
+                        draw(canvas);
+                    }
+                }
+                try {
+                    Thread.sleep(20);
+                } catch (InterruptedException e) {
+                } finally {
+                    //如果画布不为空时提交画布
+                    if (canvas != null) {
+                        sfh.unlockCanvasAndPost(canvas);
+                    }
+                }
+
+            }
+
+        }
     }
 
     @Override
