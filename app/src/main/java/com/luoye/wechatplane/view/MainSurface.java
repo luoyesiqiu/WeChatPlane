@@ -11,9 +11,6 @@ import android.graphics.*;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import android.view.View.*;
 import android.view.GestureDetector.*;
