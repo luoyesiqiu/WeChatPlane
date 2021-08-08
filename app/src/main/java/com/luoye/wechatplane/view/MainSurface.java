@@ -174,12 +174,12 @@ public class MainSurface extends SurfaceView implements
         this.setLongClickable(true);//重要
         this.setOnTouchListener(this);
         g_state = G_ING;
-        //线程初始化，放在此处。避免最小化又打开游戏时又开启一个线程
-        startCoreThread();
         HandlerThread soundHandlerThread = new HandlerThread("sound");
         soundHandlerThread.start();
         soundHandler = new Handler(soundHandlerThread.getLooper());
-
+        //线程初始化，放在此处。避免最小化又打开游戏时又开启一个线程
+        //要放在soundHandler初始化之后
+        startCoreThread();
     }
 
     private void startCoreThread(){
@@ -257,15 +257,8 @@ public class MainSurface extends SurfaceView implements
             //画子弹
             for (int i = 0; i < bulletList.size(); i++)
                 bulletList.get(i).draw(canvas);
-        }
-        //死了，就向Handler发送消息
-        else {
-            //停止循环。
-            if (flag) {
-                flag = false;
-                pauseSound();
-                handler.sendEmptyMessage(0);
-            }
+
+            frame++;
         }
 
         //绘制敌机
@@ -333,7 +326,6 @@ public class MainSurface extends SurfaceView implements
             //敌机下降速度逻辑
             dropSpeed = baseDropSpeed + (hero.getScore() / 100);
 
-            frame++;
             //到时间就创建子弹、敌机
             if (frame % bulletCreateTime == 0) {
                 playSound(shootId);
@@ -374,6 +366,15 @@ public class MainSurface extends SurfaceView implements
                 }
             }
 
+        }
+        //死了，就向Handler发送消息
+        else {
+            //停止循环。
+            if (flag) {
+                flag = false;
+                pauseSound();
+                handler.sendEmptyMessage(0);
+            }
         }
 
     }//logic 方法结尾
