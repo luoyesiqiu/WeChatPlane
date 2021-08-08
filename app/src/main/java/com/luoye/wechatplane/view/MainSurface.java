@@ -1,5 +1,6 @@
 package com.luoye.wechatplane.view;
 
+import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.view.*;
 import android.content.*;
@@ -157,7 +158,10 @@ public class MainSurface extends SurfaceView implements
         //保持开启屏幕
         this.setKeepScreenOn(true);
 
-        soundPool = new SoundPool.Builder().build();
+        soundPool = new SoundPool.Builder()
+                .setMaxStreams(3)
+                .setAudioAttributes(new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_GAME).build())
+                .build();
         try {
             explosionId = soundPool.load(context.getAssets().openFd("sound/explosion.mp3"), 0);
             shootId = soundPool.load(context.getAssets().openFd("sound/shoot.mp3"), 0);
